@@ -1,0 +1,428 @@
+
+
+<!--Banner Slider-->
+def minus_cart(request):
+    if request.method =='GET':
+        prod_id = request.GET['prod_id']
+        print(prod_id)
+        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        if c.quantity > 1:  # Check if quantity is greater than 1
+            c.quantity -= 1
+            c.save()
+
+        amount = 0.0
+        shipping_amount = 100.0
+        total = 0.0
+        cart_product = [p for p in Cart.objects.all() if p.user == request.user]
+        for p in cart_product:
+            if p.product.discounted_price == 0:
+                tempamount = p.quantity * p.product.selling_price
+            else:
+                tempamount = p.quantity * p.product.discounted_price
+            amount += tempamount
+            
+        if c.quantity == 0:
+            shipping_amount = 0.0
+
+        total = amount + shipping_amount
+        data = {
+            'quantity': c.quantity,
+            'amount': amount,
+            'total': total,
+           
+        }
+        return JsonResponse(data)
+
+
+class profileView(View):
+    def get(self, request):
+        fm = StudentRegistration()
+        stu=profile.objects.all()
+        return render(request, 'profileView.html', {'form': fm,'stu':stu})
+    
+    def post(self, request):
+        fm = StudentRegistration(request.POST)
+        if fm.is_valid():
+            name = fm.cleaned_data['name']
+            image = fm.cleaned_data['image']
+            email = fm.cleaned_data['email']
+            age = fm.cleaned_data['age']
+            address = fm.cleaned_data['address']
+            phone_no = fm.cleaned_data['phone_no']
+            date_of_birth = fm.cleaned_data['date_of_birth']
+            religion = fm.cleaned_data['religion']
+            
+            reg = profile(name=name, image=image, email=email, age=age, address=address, phone_no=phone_no, date_of_birth=date_of_birth, religion=religion)
+            reg.save()
+            
+            return redirect('profileView')  # Replace 'profileView' with the appropriate URL name or path
+        else:
+            return render(request, 'profileView.html', {'form': fm})
+
+
+def deletedata(request,id):
+    if request.method == 'POST':
+        pi=profile.objects.get(pk=id)
+        pi.delete()
+        return HttpResponseRedirect('/')
+class update(View):
+    def get(self, request, id):
+        pi = profile.objects.get(pk=id)
+        fm = StudentRegistration(instance=pi)
+        return render(request, 'profileView.html', {'form': fm, 'id': id})
+    
+    def post(self, request, id):
+        pi = profile.objects.get(pk=id)
+        fm = StudentRegistration(request.POST, instance=pi)
+        if fm.is_valid():
+            fm.save()
+            return redirect('profileView')  # Replace 'profileView' with the appropriate URL name or path
+        else:
+            return render(request, 'profileView.html', {'form': fm, 'id': id})
+
+    
+
+
+
+
+
+
+<div class="m-3">
+  <section id = "collection" class = "py-5">
+    <div class = "container">
+        <div class = "Collection-title mb-60 text-center">
+            <h2 class = "position-relative d-inline-block">New Collection</h2>
+        </div>
+      </div>  
+  <section>
+ <!-- Slider 1 -->
+ <div class="owl-carousel owl-loaded owl-drag " id="slider1">
+  <a href="{% url 'product-detail' %}" class="btn"><div class="item"><img src="{% static 'app/images/product/22.png' %}" alt="" height="200px"><span class="fw-bold">Product 1</span><br><span class="fs-5">Rs. 500</span></div></a>
+  <div class="item"><img src="{% static 'app/images/product/2.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 2</span><br><span class="fs-5">Rs. 300</span></div>
+  <div class="item"><img src="{% static 'app/images/product/3.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 3</span><br><span class="fs-5">Rs. 100</span></div>
+  <div class="item"><img src="{% static 'app/images/product/4.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 4</span><br><span class="fs-5">Rs. 700</span></div>
+  <div class="item"><img src="{% static 'app/images/product/5.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 5</span><br><span class="fs-5">Rs. 500</span></div>
+  <div class="item"><img src="{% static 'app/images/product/6.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 6</span><br><span class="fs-5">Rs. 400</span></div>
+  <div class="item"><img src="{% static 'app/images/product/7.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 7</span><br><span class="fs-5">Rs. 500</span></div>
+  <div class="item"><img src="{% static 'app/images/product/8.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 8</span><br><span class="fs-5">Rs. 300</span></div>
+  <div class="item"><img src="{% static 'app/images/product/9.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 9</span><br><span class="fs-5">Rs. 600</span></div>
+  <div class="item"><img src="{% static 'app/images/product/10.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 10</span><br><span class="fs-5">Rs. 900</span></div>
+  <div class="item"><img src="{% static 'app/images/product/11.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 11</span><br><span class="fs-5">Rs. 100</span></div>
+  <div class="item"><img src="{% static 'app/images/product/12.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 12</span><br><span class="fs-5">Rs. 200</span></div>
+ </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="column my-5 " style="width: 50%;float: left;padding: 2px;">
+      <img  src="{% static 'app/images/sale-1.png' %}"  style="width:100%" alt="...">
+    </div>
+    <div class="column my-5" style="width: 50%;float: left;padding: 2px;">
+      <img  src="{% static 'app/images/sale-1.png' %}"  style="width:100%" alt="...">
+    </div>
+    
+      
+   
+  </div>
+  </div>
+button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+height: 315px;
+    border: 1px solid #e8e8e8;
+ <!-- HTML !-->
+<button class="button-57" role="button"><span class="text">Button 57</span><span>Alternate text</span></button>
+
+/* CSS */
+.button {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #18181a;
+  color: #18181a;
+  display: inline-block;
+  font-size: 15px;
+  line-height: 15px;
+  padding: 18px 18px 17px;
+  text-decoration: none;
+  cursor: pointer;
+  background: #fff;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-57 span:first-child {
+  position: relative;
+  transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
+  z-index: 10;
+}
+
+.button-57 span:last-child {
+  color: white;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  transition: all 500ms cubic-bezier(0.48, 0, 0.12, 1);
+  z-index: 100;
+  opacity: 0;
+  top: 50%;
+  left: 50%;
+  transform: translateY(225%) translateX(-50%);
+  height: 14px;
+  line-height: 13px;
+}
+
+.button-57:after {
+  content: "";
+  position: absolute;
+  bottom: -50%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  transform-origin: bottom center;
+  transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+  transform: skewY(9.3deg) scaleY(0);
+  z-index: 50;
+}
+
+.button-57:hover:after {
+  transform-origin: bottom center;
+  transform: skewY(9.3deg) scaleY(2);
+}
+
+.button-57:hover span:last-child {
+  transform: translateX(-50%) translateY(-100%);
+  opacity: 1;
+  transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
+}   
+
+
+.items-cart{
+  font-size: 12px;
+  opacity: 0;
+  letter-spacing: 1px;
+  font-family: 'Lato', sans-serif;
+  transform: translateY(40px);
+  transition: all 0.7s;
+  text-align: center;
+}
+.items-cart  i{
+    font-size: 10px;
+}
+.p-item:hover  .items-cart{
+   
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+}
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+container: A class used to create a centered container with a maximum width for content. It is used to wrap the entire shopping cart.
+
+mt-3: A margin-top class used to create a top margin of 3 units.
+
+text-center: A class used to center the text inside the quantity input.
+
+card: A class used to create a card container. It is used to wrap the cart items.
+
+shadow: A class used to add a shadow effect to the card.
+
+card-body: A class used to create a container for the card body.
+
+cart_items: A class used to group the cart items.
+
+list-group: A class used to create a list group. It is used to wrap the cart items.
+
+list-group-flush: A class used to remove the default padding of the list group.
+
+list-group-item: A class used to create a list group item. It is used to wrap each cart item.
+
+row: A class used to create a horizontal grouping of columns.
+
+col-md-3 and col-md-9: Classes used to create columns with a width of 3 and 9 out of 12 columns, respectively. They are used to create the layout of each cart item.
+
+img-fluid: A class used to make the image responsive and fill the column width.
+
+card-title and card-subtitle: Classes used to create titles and subtitles inside the card.
+
+badge: A class used to create a badge. It is used to display the color of the product.
+
+input-group: A class used to create an input group with an addon on both sides of an input.
+
+form-control: A class used to create a form input with Bootstrap styling.
+
+input-group-prepend and input-group-append: Classes used to create an input group addon that appears before and after an input, respectively.
+
+btn, btn-outline-secondary, and btn-primary: Classes used to create buttons with different styles.
+
+product-detail: A custom class added to the "Product Details" button for styling purposes. It can be used to add event listeners or perform actions using JavaScript
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Shopping Cart</title>
+	<style type="text/css">
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+		h2 {
+			text-align: center;
+			margin-top: 20px;
+			margin-bottom: 30px;
+		}
+		.container {
+			max-width: 960px;
+			margin: 0 auto;
+			padding: 0 20px;
+		}
+		.card {
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+			margin-bottom: 20px;
+		}
+		.card-body {
+			padding: 20px;
+		}
+		.card-img {
+			display: block;
+			max-width: 100%;
+			height: auto;
+			margin-right: 20px;
+			float: left;
+		}
+		.card-title {
+			font-size: 1.25rem;
+			margin-top: 0;
+			margin-bottom: 10px;
+		}
+		.card-subtitle {
+			font-size: 1rem;
+			margin-top: 0;
+			margin-bottom: 5px;
+			color: #999;
+		}
+		.card-subtitle .badge {
+			margin-left: 10px;
+			background-color: #999;
+		}
+		.card-subtotal {
+			font-size: 1.25rem;
+			margin-top: 10px;
+		}
+		.card-quantity {
+			display: inline-block;
+			margin-right: 10px;
+			font-size: 1rem;
+		}
+		.card-price {
+			display: inline-block;
+			font-size: 1rem;
+			color: #666;
+		}
+		.input-group {
+			margin-bottom: 10px;
+		}
+		.input-group-btn {
+			display: inline-block;
+			vertical-align: top;
+		}
+		.input-group-btn .btn {
+			margin-bottom: 0;
+		}
+		.btn-danger {
+			background-color: #dc3545;
+			border-color: #dc3545;
+			color: #fff;
+		}
+		.btn-danger:hover {
+			background-color: #c82333;
+			border-color: #bd2130;
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Shopping Cart</h2>
+		<div class="card">
+			<div class="card-body">
+				<img src="https://i.imgur.com/qqBRWD5.jpg" alt="" class="card-img">
+				<h4 class="card-title">Samsung C7 Pro</h4>
+				<h6 class="card-subtitle">Color: <span class="badge">Silver</span></h6>
+				<div class="input-group">
+					<span class="card-quantity">Quantity:</span>
+					<input type="number" class="form-control" value="0">
+					<div class="input-group-btn">
+						<button class="btn btn-secondary" type="button">Update</button>
+					</div>
+				</div>
+				<div class="card-subtotal">Total: <span class="card-price">₹0</span></div>
+				<button class="btn btn-danger">Remove</button>
+			</div>
+	
+
+
+      Login
+
+      <div class="container">
+        <div class="row my-5">
+          <div class="col-sm-5 offset-sm-1">
+            <h2 class="text-center mb-4">Login</h2>
+            <form action="" method="post" novalidate class="p-4">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Remember me</label>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Login</button>
+              <div class="text-center mt-3">
+                <a href="#" class="text-primary">Forgot password?</a> |
+                <a href="#" class="text-primary">Create an account</a>
+              </div>
+              <div class="social-media mt-4">
+                <h4 class="text-center mb-3">Or sign in with</h4>
+                <div class="d-flex justify-content-center">
+                  <a href="#" class="btn btn-primary mr-3"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#" class="btn btn-danger"><i class="fab fa-google"></i></a>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-sm-5">
+            <img src="{% static 'app/images/hero.png' %}" class="img-fluid" alt="...">
+          </div>
+        </div>
+      </div>
+      

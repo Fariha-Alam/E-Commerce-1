@@ -1,0 +1,28 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Product Review{% endblock title %}
+{% block main-content %}
+<div class="container"style="min-height:100vh">
+  <h1 class="text-center mt-3">Add Review</h1>
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="{{ form.rating.id_for_label }}"style="display:grid">Rating:</label>
+      {{ form.rating }}
+      {% if form.rating.errors %}
+      <div class="alert alert-danger mt-2">{{ form.rating.errors }}</div>
+      {% endif %}
+  </div>
+  <br>
+    <div class="form-group">
+      <label for="{{ form.content.id_for_label }}"style="display:grid">Content:</label>
+      {{ form.comment }}
+      
+
+  </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{% url 'product-detail'  pk=products.id  %}" class="btn">Back to Product Detail</a>
+  </form>
+ 
+</div>
+  {% endblock main-content %}

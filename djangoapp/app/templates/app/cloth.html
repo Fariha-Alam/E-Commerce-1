@@ -1,0 +1,100 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}
+    Buy Now
+{% endblock title %}
+{% block main-content %}
+    
+   
+    <!--  Product previous end -->
+    <div class="main-product m-home" id=" "style="
+    background-color: #f8f9fa; ">
+        <div class="container-fluid">
+            <h2 class="m-header">Featured Products</h2>
+                    <p class="m-title">
+                        Check &amp; Get Your Desired Product!
+                    </p>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-12 mt-3">
+                    <div class="list-group">
+                        <a href="{% url 'cloth' %}" class="list-group-item list-group-item-action {% if not data %}active{% endif %}">
+                            All Clothes
+                        </a>
+                        {% for brand in brands %}
+                        <a href="{% url 'clothdata' brand.brand %}" class="list-group-item list-group-item-action {% if data == brand.brand %}active{% endif %}">
+                            {{ brand.brand }}
+                        </a>
+                        {% endfor %}
+                        <a href="{% url 'clothdata' 'below' %}" class="list-group-item list-group-item-action {% if data == 'below' %}active{% endif %}">Below 3000Tk</a>
+                        <a href="{% url 'clothdata' 'above' %}" class="list-group-item list-group-item-action {% if data == 'above' %}active{% endif %}">Above 3000Tk</a>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-12">
+                    
+                    <div class="main_product_items_wrap">
+                        {% for product in page_obj   %}
+                        <div class="main_product_items">
+                            <a href="{% url 'product-detail' product.id  %}" class="btn">
+                                <div class="main_product_items-inner">
+                                    <div class="tag-tk">
+                                        {% if product.status == False %}
+        
+                      
+                                         <span class="tags-tk">New</span>
+                    
+                    
+                                        {% endif %}
+                                    </div>
+                                    <div class="main_product_items-img"><a href="{% url 'product-detail' product.id  %}"><img src="{{ product.product_image.url }}" alt="MSI G2412 23.8&quot; 170Hz FHD IPS 1ms FreeSync Premium Gaming Monitor"></a></div>
+                                    <div class="main_product_items-details">
+                                        <h4 class="main_product_items-name text-center"> <a href="{% url 'product-detail' product.id  %}">{{ product.title }}</a></h4>
+                                        <div class="main_product_items-price">
+                                            {% if product.discounted_price == 0 %}
+                                            <span class="price-new"> {{ product.selling_price }}</span>
+                                            {% else %}
+                                            <span class="price-new"> {{ product.discounted_price }}</span>
+                                            <span class="price-old"> {{ product.selling_price }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="pagination justify-content-center">
+                        <ul class="pagination ">
+                            {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">&laquo; first</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            </li>
+                            {% endif %}
+                            {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                            <li class="page-item active">
+    
+                <a class="page-link" href="?page={{ num }}">{{ num }} <span class="sr-only">(current)</span></a>
+            </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>   
+     <!--  Product previous end -->
+     
+{% endblock main-content %}

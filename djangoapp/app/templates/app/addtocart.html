@@ -1,0 +1,298 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+{% block main-content %}
+<!-- login main --
+<div class="container mt-3 mb-3">
+  <h2 class="text-center mb-3">Shopping Cart1</h2>
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="cart_items">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-md-3">
+                <img src="https://i.imgur.com/qqBRWD5.jpg" alt="" class="img-fluid">
+              </div>
+              <div class="col-md-9">
+                <h4 class="card-title mb-3">Samsung C7 Pro</h4>
+                <div class="row mb-2">
+                  <div class="col-md-6">
+                    <h6 class="card-subtitle mb-2 text-muted">Color:</h6>
+                    <span class="badge badge-secondary" style="background-color:#999999;">Silver</span>
+                  </div>
+                  <div class="col-md-6">
+                    <h6 class="card-subtitle mb-2 text-muted">Quantity:</h6>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" value="0">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <h6 class="card-subtitle mb-2 text-muted">Price:</h6>
+                    <span>₹22000</span>
+                  </div>
+                  <div class="col-md-6">
+                    <h6 class="card-subtitle mb-2 text-muted">Total:</h6>
+                    <span>₹0</span>
+                  </div>
+                </div>
+                <div class="input-group-append mt-3">
+                  <button class="btn btn-danger" type="button">Remove</button>
+                 
+                </div>
+                
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container my-5">
+  <div class="row">
+    {% for cart in carts %}
+    <div class="col-sm-7 offset-sm-1">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="cart_items">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-md-3">
+                    <img src="{{cart.product.product_image.url}}" alt="" class="img-fluid">
+                  </div>
+                  <div class="col-md-9">
+                    <h4 class="card-title mb-3">Samsung C7 Pro</h4>
+                    <div class="row mb-2">
+                      <div class="col-md-4">
+                        <h6 class="card-subtitle mb-2 text-muted">Color:</h6>
+                        <span class="badge badge-secondary" style="background-color:#999999;">Silver</span>
+                      </div>
+                      <div class="col-md-4">
+                        <h6 class="card-subtitle mb-2 text-muted">Quantity:</h6>
+                        <div class="input-group mb-3">
+                          <input type="number" class="form-control" value="0">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <h6 class="card-subtitle mb-2 text-muted">Price:</h6>
+                        <span>₹22000</span>
+                      </div>
+                      <div class="col-md-4">
+                        <h6 class="card-subtitle mb-2 text-muted">Total:</h6>
+                        <span>₹0</span>
+                      </div>
+                    </div>
+                    <div class="input-group-append mt-3">
+                      <button class="btn btn-danger" type="button">Remove</button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+   </div>
+   {% endfor%}
+   <div class="col-sm-4 ">
+    <div class="card shadow">
+      <div class="card-body">
+        <h3>The Total Amount of</h3>
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">Amount<span>Rs. 430.00</span></li>
+          <li class="list-group-item d-flex justify-content-between align-items-center px-0">Shipping<span>Rs. 70.00</span></li>
+          <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+            <div>
+              <strong>Total</strong> <small>(including VAT)</small>
+            </div>
+            <span><strong>Rs. 500.00</strong></span>
+          </li>
+        </ul>
+        <div class="d-grid"><a href="{% url 'checkout' %}" class="btn btn-primary">Place Order</a></div>
+      </div>
+    </div>
+   </div>
+  </div>
+ </div>
+
+<!-- login main --
+<div class="container mt-3 mb-5"  style=" min-height: 500px;
+">
+  <h2 class="text-center mb-3">Shopping Cart1</h2>
+ 
+  <div class="row">
+    {% csrf_token %}
+    {% for cart in carts %}
+    <div class="col-md-8 mb-2">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="cart_items">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-md-3">
+                    <img src="{{cart.product.product_image.url}}" alt="" class="img-fluid">
+                  </div>
+                  <div class="col-md-9">
+                    <h4 class="card-title mb-3">{{cart.product.title}}</h4>
+                    <div class="row mb-2">
+                      <div class="col-md-4">
+                        <h6 class="card-subtitle mb-2 text-muted">Color:</h6>
+                        <span class="badge badge-secondary" style="background-color:#999999;">Silver</span>
+                      </div>
+                      <div class="col-md-4">
+                        <h6 class="card-subtitle mb-2 text-muted">Quantity:</h6>
+                        <div class="input-group mb-3">
+                          <a class="minus-cart btn" pid="{{cart.product.id}}"><i class="fas fa-minus-square fa-lg"></i></a>
+                          <span class="mt-2" id="quantity">{{cart.quantity}}</span>
+                          <a class="plus-cart btn" pid="{{cart.product.id}}"><i class="fas fa-plus-square fa-lg"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <h6 class="card-subtitle mb-2 text-muted">Price:</h6>
+                        {% if cart.product.discounted_price > 0 %}
+                            <span><span>TK. {{cart.product.discounted_price}}</span></span>
+                        {% else %}
+                            <span><span>TK. {{cart.product.selling_price}}</span></span>
+                        {% endif %}
+                    </div>
+                    
+                    </div>
+                    <div class="input-group-append mt-3">
+                      <button class="btn btn-danger remove-cart" type="button"pid="{{cart.product.id}}">Remove</button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor%}
+    <div class="col-md-4 position-absolute bottom-40 end-0">
+      <div class="card shadow">
+        <div class="card-body">
+          <h3>The Total Amount of</h3>
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">Amount<span>TK.<span id="amount"> {{amount}} </span></span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center px-0">Shipping<span>Tk. 100.00</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+              <div>
+                <strong>Total</strong> <small>(including VAT)</small>
+              </div>
+              <span><strong>TK.<strong id="total"> {{total}}</strong></strong></span>
+            </li>
+          </ul>
+          <div class="d-grid"><a href="{% url 'checkout' %}" class="btn btn-primary">Place Order</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- login main -->
+<section class="text-center">
+  <div class="container-fluid cart" style="min-height: 120vh; font-family: serif;">
+    <div class="row">
+      
+      <div class="col-md-8 ">
+        <h3 class="m-5 p-2">Shopping cart</h3>
+        {% csrf_token %}
+
+        {% for cart in carts %}
+        <div class="col-md-8  product-details-cart m-5 mr-2">
+          
+          <div class="d-flex shadow justify-content-between align-items-center mt-3 p-2 items rounded">
+            <div class="col-2"><img class="img-fluid" src="{{cart.product.product_image.url}}"></div>
+            <div class="col-md-2">
+              <div class="row text-muted">{{cart.product.title}}</div>
+              
+            </div>
+            <div class="col-md-3">
+              <h6 class="card-subtitle mb-2 ">Price:</h6>
+              {% if cart.product.discounted_price > 0 %}
+              <span><span>TK. {{cart.product.discounted_price}}</span></span>
+              {% else %}
+              <span><span>TK. {{cart.product.selling_price}}</span></span>
+              {% endif %}
+            </div>
+            <div class="col-md-3">
+              <h6 class="card-subtitle  mb-1 mr-2 text-muted"style="
+              margin-right: 40px;
+          ">Quantity:</h6>
+              <div class="input-group ">
+                {% if cart.quantity == 1 %}
+                <a class="minus-cart  btn disabled" pid="{{cart.product.id}}"min="1" required><i class="fas fa-minus-square fa-lg"></i></a>
+                {% else %}
+                <a class="minus-cart btn" pid="{{cart.product.id}}" min="1" required><i class="fas fa-minus-square fa-lg"></i></a>
+                {% endif %}
+                <span class="" id="quantity"style="
+                margin-top: 5px;
+            ">{{cart.quantity}}</span>
+                <a class="plus-cart btn" pid="{{cart.product.id}}"><i class="fas fa-plus-square fa-lg"></i></a>
+              </div>
+            </div>
+           <div class="input-group-append mt-3">
+              <button class="btn btn-danger remove-cart p-2" type="button"pid="{{cart.product.id}}">Remove</button>
+           </div>
+          </div>
+        </div>
+        {% endfor%}
+      </div>
+          <div class="col-md-4  bg-danger shadow"style="
+          min-height: 120vh;
+          
+          font-family: serif;
+          ">
+              <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                <div class="card "style="
+                background: #dc3545;
+                border: 1px solid #dc3545;
+            ">
+                  <div class="card-body"style="
+                  color: white;
+              ">
+                    <h3>The Total Amount of</h3>
+                    <ul class="list-group">
+                      <li class="p-2 d-flex justify-content-between align-items-center border-0 px-0 pb-0">Amount<span>TK.<span id="amount"> {{amount}} </span></span></li>
+                      <li class="p-2 d-flex justify-content-between align-items-center px-0">Shipping<span>Tk. 100.00</span></li>
+                      <hr>
+                      <li class="p-2 d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                        <div>
+                          <strong>Total</strong> <small>(including VAT):</small>
+                        </div>
+                        <span><strong>TK.<strong id="total"> {{total}}</strong></strong></span>
+                      </li>
+                    </ul>
+                    
+                    <div class="d-grid" ><a href="{% url 'checkout' %}" class="btn btn-primary"style="
+                    color: #fff;
+                    background-color: #dc3545;
+                    ">Place Order</a></div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div> 
+  </div>
+</section>
+
+
+{% endblock main-content %}

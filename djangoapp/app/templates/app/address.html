@@ -1,0 +1,108 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Address{% endblock title %}
+{% block main-content %}
+<!-- address: Design Block --
+<div class="container my-5">
+ <div class="row">
+    <h3>Welcome {{request.user}}</h3>
+  <div class="col-sm-2 border-end">
+   <ul class="list-unstyled">
+    <li class="d-grid"><a href="{% url 'profile' %}" class="btn">Profile</a></li>
+    <li class="d-grid"><a href="{% url 'address' %}" class="btn {{active}}">Address</a></li>
+   </ul>
+  </div>
+  <div class="col-sm-9 offset-sm-1">
+   <div class="row">
+    {% for ad in add %}
+    <div class="col-sm-6">
+     <div class="card">
+      <div class="card-body">
+       <h3>Address 1</h3>
+       <p>Name: {{ad.name}}</p>
+       <p>locality:  {{ad.locality}}</p>
+       <p>city:  {{ad.city}}</p>
+       <p>state:  {{ad.state}}</p>
+       <p>pin-code:  {{ad.zipcode}}</p>
+       
+      </div>
+     </div>
+    </div>
+    
+    {% endfor %}
+   </div>
+  </div>
+ </div>
+</div>
+<!-- address: Design Block -->
+<div class="container"style="
+min-height: 100vh;
+position: relative;
+font-family: serif;
+">
+  <div class="row">
+    <div class="col-md-4 bio-sidebar">
+      <div class="profile-sidebar">
+        <!-- SIDEBAR USER TITLE -->
+        <div class="profile-usertitle">
+          <div class="profile-usertitle-name">
+            <h3 style="
+            font-family: serif;
+            color: brown;
+        ">Welcome {{request.user}}</h3>
+          </div>
+        </div>
+        <!-- END SIDEBAR USER TITLE -->
+        <!-- SIDEBAR BUTTONS -->
+        <div class="profile-userbuttons">
+          <ul class="list-unstyled">
+            <li class="d-grid"><a href="{% url 'profile' %}" class="btn">Profile</a></li>
+            <li class="d-grid"><a href="{% url 'address' %}" class="btn {{active}}">Address</a></li>
+           </ul>
+        </div>
+        <!-- END SIDEBAR BUTTONS -->
+      </div>
+    </div>
+    <div class="col-md-6 border-right">
+      <div class="panel">
+        <div class="bio-graph-heading">
+         
+        </div>
+        <div class="panel-body bio-graph-info">
+          <h1 style="
+          margin-bottom: 60px;
+          color: #4CC5CD;
+      ">Address Info</h1>
+          {% for ad in add %}
+          <div class="row">
+            <div class="bio-row">
+              <p class="bio-label"><span>Name </span>: {{ ad.name }}</p>
+            </div>
+            <div class="bio-row">
+              <p class="bio-label"><span>Name </span>: {{ ad.email }}</p>
+            </div>
+            <div class="bio-row">
+              <p class="bio-label"><span>Name </span>: {{ ad.mobile }}</p>
+            </div>
+            <div class="bio-row">
+              <p class="bio-label"><span>Locality </span>: {{ ad.locality }}</p>
+            </div>
+            <div class="bio-row">
+              <p class="bio-label"><span>City </span>: {{ ad.city }}</p>
+            </div>
+            <div class="bio-row">
+              <p class="bio-label"><span>State </span>: {{ ad.state }}</p>
+            </div>
+            <div class="bio-row">
+              <p class="bio-label"><span>Pin Code </span>: {{ ad.zipcode }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock main-content %}

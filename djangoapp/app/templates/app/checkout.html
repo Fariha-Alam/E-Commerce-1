@@ -1,0 +1,218 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Buy Now{% endblock title %}
+{% block main-content %}
+<!-- This is main previous with a form --
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-sm-6">
+      <h4>Order Summary</h4>
+      <hr>
+      {% for item in cart_items %}
+      <div class="row p-2" style="display: flex;">
+        <div class="col-md-3">
+          <img src="{{item.product.product_image.url}}" alt="" class="img-fluid h-50" style="max-width: 100%;">
+        </div>
+        <div class="col-md-9 d-block">
+          <h5 class="mb-4">Product: {{item.product.title}}</h5>
+          <div style="display: flex;">
+            <p style="margin-right: 10px;">Quantity: {{item.quantity}}</p>
+            <p class="" style="margin-right: 10px;">
+              {% if item.product.discounted_price > 0 %}
+              <span><span>TK. {{item.product.discounted_price}}</span></span>
+              {% else %}
+              <span><span>TK. {{item.product.selling_price}}</span></span>
+              {% endif %}
+            </p>
+            
+          </div>
+        </div>
+      </div>
+      <hr>
+      
+      {% endfor %}
+      <p class="display-5 text-success" style="margin-right: 10px;">Total Price:{{total}}</p>
+      <small>Term and Condition: Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe! Iure optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium adipisci nisi nihil in et quis?</small>
+    </div>
+    <div class="col-sm-4 offset-sm-1 shadow">
+      <h4>Select Shipping Address</h4>
+      <hr>
+      <form action="/paymentdone/" method="post">
+        {% csrf_token %}
+        {% for ad in add %}
+        <div class="card">
+          <div class="card-body">
+            <h5>{{ad.name}}</h5>
+            <p>{{ad.locality}},{{ad.city}},{{ad.state}}-{{ad.zipcode}}</p>
+          </div>
+        </div>
+        <div class="form-check mt-2 mb-5">
+          <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}" required>
+          <label class="form-check-label" for="custadd{{forloop.counter}}">
+            Address:{{forloop.counter}} </label>
+        </div>
+        {% endfor %}
+        <div class="text-end">
+          <button type="submit" class="btn btn-danger">Continue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- This is a end previous with a form --
+<!-- This is a practice with a form --
+
+<div class="container my-5">
+  <h4>Order Summary</h4>
+  <div class="row">
+   
+    <div class="col-sm-6 ">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="cart_items">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="row" style="display: flex;">
+                  <div class="col-md-3">
+                    <img src="{% static 'app/images/product/3.jpg' %}" alt="" class="img-fluid h-50">
+                  </div>
+                  <div class="col-md-9 d-block">
+                    <h5 class="mb-4">Product: Product 1</h5>
+                    <div style="display: flex;">
+                      <p style="margin-right: 30px;">Quantity: 2</p>
+                      <p style="margin-right: 50px;">Price: 100.00</p>
+                      <button class="btn btn-danger  px-3" type="button">Remove</button>
+                    </div>
+                   
+                   
+                  </div>
+                </div>
+                <hr>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+   
+   <div class="col-sm-4 ">
+    <div class="card ">
+      <div class="card-body">
+        <form action="">
+          <div class="card">
+            <div class="card-body">
+            <h5>Sonam Kumari</h5>
+            <p>Hirapur Dhanbad Jharkahnd</p>
+            </div>
+          </div>
+            <div class="form-check mt-2 mb-5">
+              <input class="form-check-input" type="radio" value="">
+              <label class="form-check-label " for="">
+                Address: 1 </label>
+            </div>
+            <div class="text-end">
+              <button type="submit" class="btn btn-danger mt-3 px-3 fw-bold">Continue</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+   </div>
+  </div>
+ </div>
+!-- This is a section with a form -->
+<section class="text-center">
+  <div class="container-fluid cart" style="min-height: 120vh; font-family: serif;">
+    <div class="row d-flex">
+      <div class="col-md-8">
+        <h3 class="mt-5 mb-5">Order Summary</h3>
+        {% csrf_token %}
+
+        {% for item in cart_items %}
+        <div class="col-md-8  product-details-cart m-5 mr-2">
+          <div class="d-flex shadow justify-content-between align-items-center mt-3 p-2 items rounded">
+            <div class="col-2"><img class="img-fluid" src="{{item.product.product_image.url}}"></div>
+            <div class="col-md-2">
+              <div class="row text-yellow">{{item.product.title}}</div>
+            </div>
+            <div class="col-md-3">
+             
+              {% if cart.product.discounted_price > 0 %}
+              <span><span>TK. {{cart.product.discounted_price}}</span></span>
+              {% else %}
+              <span><span>TK. {{cart.product.selling_price}}</span></span>
+              {% endif %}
+            </div>
+            <div class="col-md-3">
+             
+              <p style="margin-right: 10px;">Quantity: {{item.quantity}}</p>
+              <p class="" style="margin-right: 10px;">
+                {% if item.product.discounted_price > 0 %}
+                <span><span>TK. {{item.product.discounted_price}}</span></span>
+                {% else %}
+                <span><span>TK. {{item.product.selling_price}}</span></span>
+                {% endif %}
+              </p>
+            </div>
+          </div> 
+        </div>
+        {% endfor %}
+        <p class="display-5 text-success mt-5 pt-5" >Total Price:{{total}}TK</p>
+      </div>
+      <div class="col-md-4 bg-danger shadow" style="min-height: 120vh; font-family: serif;">
+        <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+          <div class="card" style="background: #dc3545; border: 1px solid #dc3545;">
+            <div class="card-body" style="color: white;">
+              
+              <h4 class="mt-5">Select Shipping Address</h4>
+              <hr>
+              <form action="/payment/" method="post">
+                {% csrf_token %}
+                {% for ad in add %}
+                <div class="card">
+                  <div class="card-body" style="
+                   color: coral;
+                   ">
+                    <h5>{{ad.name}}</h5>
+                    <p>{{ad.locality}}, {{ad.city}}, {{ad.state}}-{{ad.zipcode}}</p>
+                  </div>
+                </div>
+                <div class="form-check mt-2 mb-5">
+                  <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}" required>
+                  <label class="form-check-label" for="custadd{{forloop.counter}}">Address:{{forloop.counter}}</label>
+                </div>
+                <h4>Payment Method</h4>
+                <hr>
+                <div class="row">
+                <p>Please select your payment option:</p>
+                </div>
+              
+              
+
+
+                {% endfor %}
+              
+              
+                <div class="text-end">
+                 
+                  <button type="submit" class="btn btn-danger"style="
+                  background-color: #ffc107;
+                  ">Continue</button>
+                  {% if messages %}
+          {% for message in messages %}
+            <p {% if message.tags %} class="alert alert-{{message.tags}} mt-3 mb-5{% endif %}">{{message}}</p>
+          {% endfor %}
+        {% endif %}
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+    </div> 
+  </div>
+</section>
+{% endblock main-content %}

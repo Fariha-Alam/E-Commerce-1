@@ -1,0 +1,49 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+{% block main-content %}
+
+<div class="container "style="min-height: 120vh; font-family: serif;">
+    <h1 class="text-center pt-3">My Wishlist</h1>
+    <div class="row">
+        <div class="col-sm-9 offset-sm-1 p-5 ">
+            <h3 class=" mb-5 text-yellow"></h3>
+            {% if wishlist_products %}
+            {% for wishlist in wishlist_products %}
+                <div class="row border-bottom border-end border-start border-top p-3" style="margin-bottom: 20px;">
+                    <div class="col-sm-2">
+                        <img src="{{ wishlist.product.product_image.url }}" alt="" class="img-fluid">
+                    </div>
+                    <div class="col-sm-7">
+                        <p class="text-yellow">{{ wishlist.product.title }}</p>
+                        <p>Category: {{ wishlist.product.category }}</p>
+                        {% if wishlist.product.discounted_price == 0 %}
+                            <h3>Tk. {{ wishlist.product.selling_price }}</h3>
+                        {% else %}
+                            <div class="">
+                                <h3>Tk. {{ wishlist.product.discounted_price }}</h3>
+                            </div>
+                        {% endif %}
+                        <br>
+                        <form action="/add-to-cart" class="d-inline">
+                            <input type="hidden" name="prod_id" value="{{ wishlist.product.id }}" id="prod_id">
+                            <button type="submit" class="btn btn-primary shadow py-2">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Your wishlist is empty.</p>
+        {% endif %}
+        
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock main-content %}
+
+
+
+
+

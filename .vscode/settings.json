@@ -1,0 +1,4 @@
+{
+    "djlint.formatCss": true,
+    "djlint.formatJs": true
+}
